@@ -10,13 +10,13 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32F103VE</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.1.0.5</PackID>
+          <PackID>Keil.STM32F1xx_DFP.2.4.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IRAM(0x20000000,0x00010000) IROM(0x08000000,0x00080000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -184,6 +184,7 @@
             <hadXRAM>0</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>0</RvdsVP>
+            <RvdsMve>0</RvdsMve>
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
@@ -324,6 +325,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
+            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>1</v6Lang>
             <v6LangP>1</v6LangP>
@@ -336,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\start;.\User;.\Lib;.\Hardware\OLED;.\Hardware;.\System</IncludePath>
+              <IncludePath>.\start;.\User;.\Lib;.\Hardware\OLED;.\Hardware;.\System;.\Hardware\ICM_42688_P</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -648,6 +650,56 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Hardware</GroupName>
+          <Files>
+            <File>
+              <FileName>OLED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\OLED\OLED.c</FilePath>
+            </File>
+            <File>
+              <FileName>ICM_42688_P.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\ICM_42688_P\ICM_42688_P.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpuiic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\ICM_42688_P\mpuiic.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6050.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\ICM_42688_P\mpu6050.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>System</GroupName>
+          <Files>
+            <File>
+              <FileName>delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\sys.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\usart.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>User</GroupName>
           <Files>
             <File>
@@ -669,16 +721,6 @@
               <FileName>stm32f10x_it.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\stm32f10x_it.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Hardware</GroupName>
-          <Files>
-            <File>
-              <FileName>OLED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\OLED\OLED.c</FilePath>
             </File>
           </Files>
         </Group>
