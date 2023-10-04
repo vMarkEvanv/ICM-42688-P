@@ -662,16 +662,6 @@
               <FileType>1</FileType>
               <FilePath>.\Hardware\ICM_42688_P\ICM_42688_P.c</FilePath>
             </File>
-            <File>
-              <FileName>mpuiic.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\ICM_42688_P\mpuiic.c</FilePath>
-            </File>
-            <File>
-              <FileName>mpu6050.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\ICM_42688_P\mpu6050.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

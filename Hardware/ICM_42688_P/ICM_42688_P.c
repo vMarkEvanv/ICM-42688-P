@@ -16,7 +16,7 @@ void ICM_IIC_Delay(void){
 /*输入：无;****************************************/
 /*输出：无;****************************************/
 /**************************************************/
-void Port_Init(){
+void ICM_Port_Init(){
 	//delay_init();
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB,ENABLE);//先使能外设IO PORTB时钟 
@@ -145,7 +145,7 @@ void ICM_IIC_Send_Byte(unsigned char txd)
 /******************************************************************/
 /*函数名：ICM_IIC_Read_Byte;***************************************/
 /*功能：读1个字节，ack=1时，发送ACK，ack=0，发送nACK ;*************/
-/*输入：无;********************************************************/
+/*输入：ack:是否发送应答;********************************************************/
 /*输出：data;***************************************/
 /******************************************************************/
 
@@ -157,11 +157,11 @@ unsigned char ICM_IIC_Read_Byte(unsigned char ack)
 	{
         ICM_IIC_SCL=0; 
         ICM_IIC_Delay();
-		ICM_IIC_SCL=1;
+				ICM_IIC_SCL=1;
         receive<<=1;
         if(ICM_READ_SDA)receive++;   
-		ICM_IIC_Delay(); 
-    }					 
+					ICM_IIC_Delay(); 
+				}					 
     if (!ack)
         ICM_IIC_NAck();//发送nACK
     else
@@ -172,16 +172,63 @@ unsigned char ICM_IIC_Read_Byte(unsigned char ack)
 /******************************************************************/
 /*函数名：ICM_IIC_WRITE_BYTE;***************************************/
 /*功能：写一个字节;*************/
-/*输入：无;********************************************************/
+/*输入：RA：寄存器地址 data_byte:数据;********************************************************/
 /*输出：0 失败 1 成功;***************************************/
 /******************************************************************/
-unsigned char ICM_IIC_WRITE_BYTE(){
+unsigned char ICM_IIC_WRITE_BYTE(unsigned char RA, unsigned char data_byte){
 	
 	ICM_42688_START();
 	ICM_IIC_Send_Byte(ICM_42688_Addr_AD0_LOW_WRITE);
 	if(ICM_IIC_Wait_Ack()){
 		return 1;
 	}
+	ICM_IIC_Send_Byte(RA);
+	if(ICM_IIC_Wait_Ack()){return 1;}
+	ICM_IIC_Send_Byte(data_byte);
+	if(ICM_IIC_Wait_Ack()){return 1;}
 	ICM_42688_STOP();
 	return 0;
+}
+/******************************************************************/
+/*函数名：ICM_INIT;***************************************/
+/*功能：ICM芯片初始化;*************/
+/*输入：无;********************************************************/
+/*输出：0 失败 1 成功;***************************************/
+/******************************************************************/
+//unsigned char ICM_INIT(){
+//	ICM_IIC_WRITE_BYTE();
+//}
+
+unsigned char ICM_Gyroscope_Reset(){
+	
+	if(ICM_IIC_WRITE_BYTE(DEVICE_CONFIG,DEVICE_RESET)==1){
+		return 1;
+	}
+	return 0;
+	
+}
+
+unsigned char Set_Range(){
+	ICM_IIC_WRITE_BYTE(PWR_MGMT0,0x17);
+	delay_ms(45);
+	//ICM_IIC_WRITE_BYTE(GYRO_CONFIG0,0x17);
+return 0;
+	
+}
+unsigned char Get_ACC(unsigned char RA){
+	unsigned char data=255;
+	ICM_42688_START();
+	ICM_IIC_Send_Byte(ICM_42688_Addr_AD0_LOW_WRITE);
+	if(ICM_IIC_Wait_Ack()){return 1;}
+	ICM_IIC_Send_Byte(RA);
+	if(ICM_IIC_Wait_Ack()){return 1;}
+	
+	ICM_42688_START();
+	ICM_IIC_Send_Byte(ICM_42688_Addr_AD0_LOW_READ);
+	if(ICM_IIC_Wait_Ack()){
+		return 1;
+	}
+	data = ICM_IIC_Read_Byte(0);
+	ICM_42688_STOP();
+	return data;
 }
