@@ -1,6 +1,6 @@
 #ifndef __ICM_42688_P_H
 #define __ICM_42688_P_H
-#include "sys.h"
+
 
 //IO·½ÏòÉèÖÃ
 #define ICM_SDA_IN()  {GPIOB->CRH&=0XFFFF0FFF;GPIOB->CRH|=8<<12;}
@@ -143,6 +143,20 @@
 /**CONTROL DESCRIPTIONS**/
 #define DEVICE_RESET 0X01 //DEVICE_CONFIG
 
+typedef struct{
+    double X;
+    double Y;
+    double Z;
+}GYRO;
+typedef struct{
+    double X;
+    double Y;
+    double Z;
+}ACC;
+typedef struct{
+    double T;
+}TEMP;
+
 
 void ICM_Port_Init(void);
 void ICM_42688_START(void);
@@ -154,7 +168,8 @@ void ICM_IIC_Send_Byte(unsigned char txd);
 unsigned char ICM_IIC_Read_Byte(unsigned char ack);
 unsigned char ICM_IIC_WRITE_BYTE(unsigned char RA, unsigned char data_byte);
 
-unsigned char ICM_Gyroscope_Reset(void);
-unsigned char Set_Range(void);
-unsigned char Get_ACC(unsigned char RA);
+unsigned char ICM_INIT(void);
+unsigned char ICM_Gyroscope_INIT(void);
+unsigned char ICM_ACC_INIT(void);
+unsigned char GYRO_ACC_TEMP_GET(void);
 #endif 

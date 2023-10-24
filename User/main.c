@@ -3,9 +3,11 @@
 #include "ICM_42688_P.h"
 #include "sys.h"
 #include "delay.h"
+extern GYRO Gyro_Get;
+extern ACC Acc_Get;
+extern TEMP Temp;
 int main(void)
 {
-	unsigned char a=0;
 	delay_init();
 	OLED_Init();
 	OLED_Clear();
@@ -18,16 +20,21 @@ int main(void)
 	GPIO_SetBits(GPIOA,GPIO_Pin_1);
 	ICM_Port_Init();
 	//while(ICM_Gyroscope_Reset()==1);
-	Set_Range();
 	GPIO_ResetBits(GPIOA,GPIO_Pin_1);
-	
+	ICM_INIT();
+
 	while(1)
 	{
-		a = Get_ACC(ACCEL_DATA_Z1);
-		OLED_ShowSignedNum(1, 1,a , 5);
 		
+		GYRO_ACC_TEMP_GET();
+		OLED_ShowSignedNum(1, 1, Acc_Get.X, 5);
+		OLED_ShowSignedNum(2, 1, Acc_Get.Y, 5);
+		OLED_ShowSignedNum(3, 1, Acc_Get.Z, 5);
+		OLED_ShowSignedNum(1, 7, Gyro_Get.X, 5);
+		OLED_ShowSignedNum(2, 7, Gyro_Get.Y, 5);
+		OLED_ShowSignedNum(3, 7, Gyro_Get.Z, 5);
+		OLED_ShowSignedNum(4, 1, Temp.T, 5);
 		//GPIO_ResetBits(GPIOA,GPIO_Pin_1);
-		
-		
+
 	}
 }
